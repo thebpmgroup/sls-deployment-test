@@ -174,7 +174,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/sls-deployment-test/dev/1670574371647-2022-12-09T08:26:11.647Z/sls-deployment-test.zip"
+                "S3Key": "serverless/sls-deployment-test/dev/1670574500590-2022-12-09T08:28:20.590Z/sls-deployment-test.zip"
               },
               "Handler": "handler.hello",
               "Runtime": "nodejs12.x",
@@ -293,12 +293,6 @@
               }
             },
             "DependsOn": "HttpApiIntegrationHello"
-          },
-          "Bucket": {
-            "Type": "AWS::S3::Bucket",
-            "Properties": {
-              "BucketName": "MyBucket"
-            }
           }
         },
         "Outputs": {
@@ -462,17 +456,6 @@
         "versionLogicalId": "HelloLambdaVersionQDQYnjD4Dz3FR5BxB96kmbKmtQibl4H4GHCIP63EuLM"
       }
     },
-    "resources": {
-      "Resources": {
-        "Bucket": {
-          "Type": "AWS::S3::Bucket",
-          "Properties": {
-            "BucketName": "MyBucket"
-          }
-        }
-      },
-      "Outputs": {}
-    },
     "configValidationMode": "warn",
     "serviceFilename": "serverless.yml",
     "initialServerlessConfig": {
@@ -483,9 +466,6 @@
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
-      "resources": {
-        "$ref": "$[\"service\"][\"resources\"]"
-      },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
       }
@@ -495,7 +475,7 @@
     "artifact": "/home/charlie/Documents/sls-deployment-test/.serverless/sls-deployment-test.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/sls-deployment-test/dev/1670574371647-2022-12-09T08:26:11.647Z",
+    "artifactDirectoryName": "serverless/sls-deployment-test/dev/1670574500590-2022-12-09T08:28:20.590Z",
     "artifact": "sls-deployment-test.zip"
   }
 }
