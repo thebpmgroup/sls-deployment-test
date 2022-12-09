@@ -20,10 +20,4 @@ functions:
       - httpApi:
           path: /
           method: get
-  world:
-    handler: handler.world
-    events:
-      - httpApi:
-          path: /world
-          method: get
 

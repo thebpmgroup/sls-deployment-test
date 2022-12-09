@@ -90,12 +90,6 @@
               "LogGroupName": "/aws/lambda/sls-deployment-test-dev-hello"
             }
           },
-          "WorldLogGroup": {
-            "Type": "AWS::Logs::LogGroup",
-            "Properties": {
-              "LogGroupName": "/aws/lambda/sls-deployment-test-dev-world"
-            }
-          },
           "IamRoleLambdaExecution": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -180,7 +174,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/sls-deployment-test/dev/1670574253085-2022-12-09T08:24:13.085Z/sls-deployment-test.zip"
+                "S3Key": "serverless/sls-deployment-test/dev/1670574371647-2022-12-09T08:26:11.647Z/sls-deployment-test.zip"
               },
               "Handler": "handler.hello",
               "Runtime": "nodejs12.x",
@@ -198,47 +192,12 @@
               "HelloLogGroup"
             ]
           },
-          "WorldLambdaFunction": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-              "Code": {
-                "S3Bucket": {
-                  "Ref": "ServerlessDeploymentBucket"
-                },
-                "S3Key": "serverless/sls-deployment-test/dev/1670574253085-2022-12-09T08:24:13.085Z/sls-deployment-test.zip"
-              },
-              "Handler": "handler.world",
-              "Runtime": "nodejs12.x",
-              "FunctionName": "sls-deployment-test-dev-world",
-              "MemorySize": 1024,
-              "Timeout": 6,
-              "Role": {
-                "Fn::GetAtt": [
-                  "IamRoleLambdaExecution",
-                  "Arn"
-                ]
-              }
-            },
-            "DependsOn": [
-              "WorldLogGroup"
-            ]
-          },
           "HelloLambdaVersionQDQYnjD4Dz3FR5BxB96kmbKmtQibl4H4GHCIP63EuLM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HelloLambdaFunction"
-              },
-              "CodeSha256": "6ZqOmLimrllHQOA2/egNQ9IaUuE6DjvZG2XmIlI9ZHc="
-            }
-          },
-          "WorldLambdaVersionMG825VRy8qrgsP5TJtfTWLkaTZd6ifKOpgYZKBfHyXs": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "WorldLambdaFunction"
               },
               "CodeSha256": "6ZqOmLimrllHQOA2/egNQ9IaUuE6DjvZG2XmIlI9ZHc="
             }
@@ -335,78 +294,6 @@
             },
             "DependsOn": "HttpApiIntegrationHello"
           },
-          "WorldLambdaPermissionHttpApi": {
-            "Type": "AWS::Lambda::Permission",
-            "Properties": {
-              "FunctionName": {
-                "Fn::GetAtt": [
-                  "WorldLambdaFunction",
-                  "Arn"
-                ]
-              },
-              "Action": "lambda:InvokeFunction",
-              "Principal": "apigateway.amazonaws.com",
-              "SourceArn": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":execute-api:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":",
-                    {
-                      "Ref": "HttpApi"
-                    },
-                    "/*"
-                  ]
-                ]
-              }
-            }
-          },
-          "HttpApiIntegrationWorld": {
-            "Type": "AWS::ApiGatewayV2::Integration",
-            "Properties": {
-              "ApiId": {
-                "Ref": "HttpApi"
-              },
-              "IntegrationType": "AWS_PROXY",
-              "IntegrationUri": {
-                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"WorldLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
-              },
-              "PayloadFormatVersion": "2.0",
-              "TimeoutInMillis": 6500
-            }
-          },
-          "HttpApiRouteGetWorld": {
-            "Type": "AWS::ApiGatewayV2::Route",
-            "Properties": {
-              "ApiId": {
-                "Ref": "HttpApi"
-              },
-              "RouteKey": "GET /world",
-              "Target": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "integrations",
-                    {
-                      "Ref": "HttpApiIntegrationWorld"
-                    }
-                  ]
-                ]
-              }
-            },
-            "DependsOn": "HttpApiIntegrationWorld"
-          },
           "Bucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
@@ -430,15 +317,6 @@
             },
             "Export": {
               "Name": "sls-sls-deployment-test-dev-HelloLambdaFunctionQualifiedArn"
-            }
-          },
-          "WorldLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "WorldLambdaVersionMG825VRy8qrgsP5TJtfTWLkaTZd6ifKOpgYZKBfHyXs"
-            },
-            "Export": {
-              "Name": "sls-sls-deployment-test-dev-WorldLambdaFunctionQualifiedArn"
             }
           },
           "HttpApiId": {
@@ -582,26 +460,6 @@
         "runtime": "nodejs12.x",
         "vpc": {},
         "versionLogicalId": "HelloLambdaVersionQDQYnjD4Dz3FR5BxB96kmbKmtQibl4H4GHCIP63EuLM"
-      },
-      "world": {
-        "handler": "handler.world",
-        "events": [
-          {
-            "httpApi": {
-              "path": "/world",
-              "method": "get"
-            },
-            "resolvedMethod": "GET",
-            "resolvedPath": "/world"
-          }
-        ],
-        "name": "sls-deployment-test-dev-world",
-        "package": {},
-        "memory": 1024,
-        "timeout": 6,
-        "runtime": "nodejs12.x",
-        "vpc": {},
-        "versionLogicalId": "WorldLambdaVersionMG825VRy8qrgsP5TJtfTWLkaTZd6ifKOpgYZKBfHyXs"
       }
     },
     "resources": {
@@ -637,7 +495,7 @@
     "artifact": "/home/charlie/Documents/sls-deployment-test/.serverless/sls-deployment-test.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/sls-deployment-test/dev/1670574253085-2022-12-09T08:24:13.085Z",
+    "artifactDirectoryName": "serverless/sls-deployment-test/dev/1670574371647-2022-12-09T08:26:11.647Z",
     "artifact": "sls-deployment-test.zip"
   }
 }
