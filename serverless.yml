@@ -6,6 +6,13 @@ provider:
   runtime: nodejs12.x
   lambdaHashingVersion: '20201221'
 
+resources:
+  Resources:
+    Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: MyBucket
+
 functions:
   hello:
     handler: handler.hello
@@ -17,5 +24,6 @@ functions:
     handler: handler.world
     events:
       - httpApi:
-          path: /
+          path: /world
           method: get
+
